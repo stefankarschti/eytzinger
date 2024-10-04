@@ -73,7 +73,7 @@ void print_vector(const std::vector<int>& a) {
 
 int main(int argc, char* argv[]) {
     // Generate input
-    constexpr size_t n = 1 << 30;
+    constexpr size_t n = 1 << 29;
     std::cout << "input size is " << n << std::endl;
     std::vector<int> a;
 
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
     measure_time("eytzinger search", [&]() {
         for (int x : a) {
             int index1 = eytzinger::search(b, x);
-            if (!index1) {
+            if (!index1 || b[index1] != x) {
                 std::cout << "eytzinger: " << x << " fail\n";
             }
         }
@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
     measure_time("lower_bound search", [&]() {
         for (int x : a) {
             auto i2 = std::lower_bound(a.begin(), a.end(), x);
-            if (i2 == a.end()) {
+            if (i2 == a.end() || *i2 != x) {
                 std::cout << "lower_bound: " << x << " fail\n";
             }
         }
